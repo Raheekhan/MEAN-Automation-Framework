@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="MEAN Auth App" parallel="false">
+
+    <test name="Chrome Local">
+
+        <parameter name="useHeadless" value="true"/>
+        <parameter name="useLocalEnv" value="false"/>
+        <parameter name="useGridEnv" value="false"/>
+        <parameter name="browserName" value="chrome"/>
+        <parameter name="nodeURL" value="http://192.168.0.19:5555/wd/hub"/>
+
+        <groups>
+            <define name="Smoke">
+                <include name="smoke"/>
+            </define>
+        </groups>
+
+        <classes>
+            <class name="test.PricingTest"/>
+            <class name="test.LoginTest"/>
+            <class name="test.PurchasePlanTest"/>
+            <class name="test.NavigationTest"/>
+        </classes>
+    </test>
+
+</suite>
