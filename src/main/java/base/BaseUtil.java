@@ -1,10 +1,12 @@
 package base;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -15,6 +17,7 @@ import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -23,14 +26,30 @@ import java.util.Date;
 
 public class BaseUtil {
 
+    public static ExtentHtmlReporter htmlReporter;
+    public static ExtentReports extent;
+    public static ExtentTest test;
+
+    DateFormat dateformat = new SimpleDateFormat("MM-dd-yyyy HHmmss");
+    Date date = new Date();
+
     private String url = "http://localhost:4200/";
 
     public WebDriver driver;
 
+    @BeforeSuite
+    public void startExtentReporting() {
+        htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") + "/ExtentReports/ExtentReportResults.html");
+        extent = new ExtentReports();
+        extent.attachReporter(htmlReporter);
+    }
+
     @BeforeMethod
     @Parameters({"useHeadless", "useLocalEnv", "useGridEnv", "browserName", "nodeURL"})
     public void setUp(@Optional boolean useHeadless, @Optional boolean useLocalEnv, @Optional boolean useGridEnv,
-                      @Optional String browserName, @Optional String nodeURL) {
+                      @Optional String browserName, @Optional String nodeURL, @Optional Method method) {
+
+        test = extent.createTest(method.getName());
 
         if (useLocalEnv) {
             getLocalDriver(browserName);
@@ -47,12 +66,21 @@ public class BaseUtil {
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
+            test.fail(MarkupHelper.createLabel(result.getName() + "Test Case Failed", ExtentColor.RED));
+            test.fail(result.getThrowable());
             captureScreenshot(result.getName());
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            test.pass(MarkupHelper.createLabel(result.getName() + "Test Case Passed", ExtentColor.GREEN));
         }
 
         if (driver != null) {
             driver.quit();
         }
+    }
+
+    @AfterSuite
+    public void endExtentReporting() {
+        extent.flush();
     }
 
     public WebDriver getLocalDriver(String browserName) {

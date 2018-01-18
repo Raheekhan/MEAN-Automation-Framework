@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="MEAN Auth App" parallel="false">
+<suite name="MEAN Auth App" parallel="tests">
 
     <test name="Chrome Local">
 
-        <parameter name="useHeadless" value="true"/>
-        <parameter name="useLocalEnv" value="false"/>
+        <parameter name="useHeadless" value="false"/>
+        <parameter name="useLocalEnv" value="true"/>
         <parameter name="useGridEnv" value="false"/>
         <parameter name="browserName" value="chrome"/>
         <parameter name="nodeURL" value="http://192.168.0.19:5555/wd/hub"/>

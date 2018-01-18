@@ -1,24 +1,16 @@
 package listeners;
 
 import base.BaseUtil;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class TestListener extends BaseUtil implements ITestListener {
+
 
     @Override
     public void onTestStart(ITestResult result) {
-
+        
     }
 
     @Override
