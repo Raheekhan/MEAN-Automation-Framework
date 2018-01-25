@@ -14,18 +14,22 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-public class PurchasePlan {
-
-    private WebDriver driver;
-    private WebDriverWait wait;
-
-    Properties prop;
+public class PurchasePlan extends Pricing {
 
     public PurchasePlan(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        wait = new WebDriverWait(driver, 5);
+        super(driver);
     }
+
+//    private WebDriver driver;
+//    private WebDriverWait wait;
+//
+    Properties prop;
+//
+//    public PurchasePlan(WebDriver driver) {
+//        this.driver = driver;
+//        PageFactory.initElements(driver, this);
+//        wait = new WebDriverWait(driver, 8);
+//    }
 
     @FindBy(id = "cardnumber")
     WebElement cardNumber;
@@ -59,11 +63,11 @@ public class PurchasePlan {
     WebElement successfulPurchaseMessage;
 
     private Pricing purchaseBronzePlan() {
-        return new Pricing(driver).purchaseBronzePlan();
+        return pricingPurchaseBronzePlan();
     }
 
-    private Pricing clickPurchaseButton() {
-        return new Pricing(driver).clickPurchaseButton();
+    public Pricing clickPurchaseButton() {
+        return clickPurchaseButtonOnPricingPage();
     }
 
     private void loadProperties() {
@@ -94,7 +98,11 @@ public class PurchasePlan {
 
         Select year = new Select(years);
         year.selectByValue("2020");
-        purchasePlanButton.click();
+        try {
+            purchasePlanButton.click();
+        } catch (Exception e) {
+            purchasePlanButton.click();
+        }
     }
 
     public void withInvalidCardNumber() {

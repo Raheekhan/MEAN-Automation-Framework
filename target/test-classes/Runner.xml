@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="MEAN Auth App" parallel="tests">
+<suite name="MEAN Auth App" parallel="classes">
 
     <test name="Chrome Local">
 
@@ -17,11 +17,10 @@
         </groups>
 
         <classes>
-            <class name="test.TestRunner"/>
-            <!--<class name="test.PricingTest"/>-->
-            <!--<class name="test.LoginTest"/>-->
-            <!--<class name="test.PurchasePlanTest"/>-->
-            <!--<class name="test.NavigationTest"/>-->
+            <class name="test.LoginTest"/>
+            <class name="test.PricingTest"/>
+            <class name="test.PurchasePlanTest"/>
+            <class name="test.NavigationTest"/>
         </classes>
     </test>
 

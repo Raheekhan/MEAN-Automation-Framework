@@ -9,16 +9,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.Navigation;
 import pages.home.Login;
 
-public class Pricing {
-
-    private WebDriver driver;
-    private WebDriverWait wait;
+public class Pricing extends Navigation {
 
     public Pricing(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        wait = new WebDriverWait(driver, 5);
+        super(driver);
     }
+
+//    private WebDriver driver;
+//    public WebDriverWait wait;
+//
+//    public Pricing(WebDriver driver) {
+//        this.driver = driver;
+//        PageFactory.initElements(driver, this);
+//        wait = new WebDriverWait(driver, 5);
+//    }
 
     @FindBy(id = "platinum")
     WebElement buyPlatinum;
@@ -35,9 +39,11 @@ public class Pricing {
     @FindBy(id = "goback")
     WebElement goBackButton;
 
-    @FindBy(id = "purchase")
-    WebElement purchaseButton;
+    // For the Purchase Button prior to Card payment page
+    @FindBy(xpath = "//table[@id='cart']//a[@id='purchase']")
+    WebElement pricingPagePurchaseButton;
 
+    // For the Purchase Button in the Card Payment page
     @FindBy(id = "purchaseplan")
     WebElement purchasePlanButton;
 
@@ -48,60 +54,60 @@ public class Pricing {
     }
 
     public Pricing purchase() {
-        wait.until(ExpectedConditions.elementToBeClickable(purchaseButton));
-        purchaseButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(pricingPagePurchaseButton));
+        pricingPagePurchaseButton.click();
         return this;
     }
 
     private Navigation navigateTo() {
-        return new Navigation(driver).pricingPage();
+        return pricingPage();
     }
 
     private Login loginAsValidUser() {
         return new Login(driver).withValidCredentials();
     }
 
-    public Pricing purchasePlatinumPlan() {
-        loginAsValidUser();
+    public Pricing pricingPurchasePlatinumPlan() {
+//        loginAsValidUser();
         navigateTo();
         wait.until(ExpectedConditions.elementToBeClickable(buyPlatinum));
         buyPlatinum.click();
         return this;
     }
 
-    public Pricing purchaseGoldPlan() {
-        loginAsValidUser();
+    public Pricing pricingPurchaseGoldPlan() {
+//        loginAsValidUser();
         navigateTo();
         wait.until(ExpectedConditions.elementToBeClickable(buyGold));
         buyGold.click();
         return this;
     }
 
-    public Pricing purchaseSilverPlan() {
-        loginAsValidUser();
+    public Pricing pricingPurchaseSilverPlan() {
+//        loginAsValidUser();
         navigateTo();
         wait.until(ExpectedConditions.elementToBeClickable(buySilver));
         buySilver.click();
         return this;
     }
 
-    public Pricing purchaseBronzePlan() {
-        loginAsValidUser();
+    public Pricing pricingPurchaseBronzePlan() {
+//        loginAsValidUser();
         navigateTo();
         wait.until(ExpectedConditions.elementToBeClickable(buyBronze));
         buyBronze.click();
         return this;
     }
 
-    public Pricing clickPurchaseButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(purchaseButton));
-        purchaseButton.click();
+    public Pricing clickPurchaseButtonOnPricingPage() {
+        wait.until(ExpectedConditions.elementToBeClickable(pricingPagePurchaseButton));
+        pricingPagePurchaseButton.click();
         return this;
     }
 
     public boolean isOnPlanPage() {
-        wait.until(ExpectedConditions.visibilityOf(purchaseButton));
-        if (purchaseButton.isDisplayed()) {
+        wait.until(ExpectedConditions.visibilityOf(pricingPagePurchaseButton));
+        if (pricingPagePurchaseButton.isDisplayed()) {
             return true;
         }
         return false;

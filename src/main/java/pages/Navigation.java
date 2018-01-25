@@ -12,15 +12,15 @@ import java.util.List;
 
 public class Navigation {
 
-    String url = "http://localhost:4200";
+    String url = "http://localhost:3000";
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    public WebDriver driver;
+    public WebDriverWait wait;
 
     public Navigation(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 10);
     }
 
     @FindBy(id = "home")

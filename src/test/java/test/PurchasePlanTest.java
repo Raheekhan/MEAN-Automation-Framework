@@ -1,7 +1,9 @@
 package test;
 
 import base.BaseUtil;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.home.Login;
 import pages.user.product.packages.purchase.PurchasePlan;
 
 import static org.testng.Assert.assertTrue;
@@ -9,14 +11,12 @@ import static org.testng.Assert.assertTrue;
 @Test(groups = {"smoke"})
 public class PurchasePlanTest extends BaseUtil {
 
-    /**
-     * These Test Cases are focused on the actual Card Purchase process.
-     * The vaidation for actually logging in as a valid user and selecting
-     * a plan is left for other test cases.
-     *
-     * Behind the scenes in PurchasePlan Class, I am calling in methods
-     * from Pricing Class which also calls on Login Class.
-     */
+    @BeforeMethod
+    public void login() {
+        Login login = new Login(driver);
+        login.withValidCredentials();
+
+    }
 
     public void purchasePlanWithValidCard() {
         PurchasePlan purchase = new PurchasePlan(driver);
